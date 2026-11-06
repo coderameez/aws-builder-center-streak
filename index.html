@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101827">
+  <meta name="description" content="A 90-day manual AWS Builder Center streak tracker.">
+  <title>AWS Builder Center — 90-Day Streak</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <a class="brand" href="./"><span class="brand-mark">A</span><span>AWS BUILDER CENTER <small>90-DAY STREAK TRACKER</small></span></a>
+      <span class="timezone">ASIA / KARACHI · PKT</span>
+    </header>
+
+    <section class="hero">
+      <p class="eyebrow">PERSONAL CHALLENGE · NOV 07, 2026 — FEB 04, 2027</p>
+      <h1>Build the habit.<br><span>Keep the streak.</span></h1>
+      <p class="intro">A simple daily record of your AWS Builder Center activity. Complete the required activity on AWS yourself, then log the day here.</p>
+      <div class="progress-wrap">
+        <div class="progress-label"><span>OVERALL PROGRESS</span><strong id="progressText">0 / 90 days</strong></div>
+        <div class="progress-track"><div id="progressBar" class="progress-bar"></div></div>
+      </div>
+    </section>
+
+    <section class="stats" aria-label="Challenge statistics">
+      <article class="stat"><span class="stat-label">CURRENT STREAK</span><strong id="currentStreak">0</strong><small>consecutive days</small></article>
+      <article class="stat"><span class="stat-label">BEST STREAK</span><strong id="bestStreak">0</strong><small>consecutive days</small></article>
+      <article class="stat"><span class="stat-label">DAYS COMPLETED</span><strong id="completedDays">0</strong><small>out of 90 days</small></article>
+      <article class="stat"><span class="stat-label">DAYS REMAINING</span><strong id="remainingDays">90</strong><small>in the challenge</small></article>
+    </section>
+
+    <section class="panel today-panel">
+      <div class="section-heading"><div><p class="eyebrow">DAILY CHECK-IN</p><h2 id="todayHeading">Today's check-in</h2></div><span id="todayStatus" class="status">NOT LOGGED</span></div>
+      <p id="todayDescription" class="muted">Complete the required AWS Builder Center activity manually, then record it below.</p>
+      <label class="check-row"><input id="doneCheck" type="checkbox"><span><strong>I completed today's required Builder Center activity.</strong><small>I performed and verified the activity myself on AWS Builder Center.</small></span></label>
+      <label class="notes-label" for="dailyNote">Optional note</label>
+      <textarea id="dailyNote" rows="2" maxlength="280" placeholder="What did you build, learn, or contribute today?"></textarea>
+      <div class="actions"><button id="saveButton" class="primary">Save today's check-in</button><button id="undoButton" class="secondary" hidden>Undo today's check-in</button></div>
+      <p class="fine-print">This tracker does not sign in to AWS or automate likes, comments, posts, or other engagement. Your check-ins are saved in this browser.</p>
+    </section>
+
+    <section class="panel calendar-panel">
+      <div class="section-heading"><div><p class="eyebrow">90-DAY HISTORY</p><h2>Challenge calendar</h2></div><div class="legend"><span><i class="dot done"></i> Completed</span><span><i class="dot missed"></i> Not logged</span></div></div>
+      <div id="calendar" class="calendar"></div>
+    </section>
+
+    <footer><span>Built for consistency, not automated engagement.</span><button id="exportButton" class="text-button">Export my history ↗</button></footer>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
