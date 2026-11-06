@@ -1,0 +1,51 @@
+name: Daily AWS Builder Center check-in reminder
+
+on:
+  schedule:
+    - cron: '0 16 * * *' # 21:00 Asia/Karachi (UTC+5)
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  create-daily-reminder:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create today's reminder issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          TZ: Asia/Karachi
+        shell: bash
+        run: |
+          set -euo pipefail
+          TODAY="$(date +%F)"
+          START="2026-11-07"
+          END="2027-02-04"
+          if [[ "$TODAY" < "$START" || "$TODAY" > "$END" ]]; then
+            echo "Outside the 90-day challenge window; no reminder created."
+            exit 0
+          fi
+          START_EPOCH="$(date -d "$START 00:00:00" +%s)"
+          TODAY_EPOCH="$(date -d "$TODAY 00:00:00" +%s)"
+          DAY=$(( (TODAY_EPOCH - START_EPOCH) / 86400 + 1 ))
+          TITLE="Day $DAY — AWS Builder Center check-in ($TODAY)"
+          if gh issue list --repo "$GH_REPO" --state all --limit 100 --json title --jq '.[].title' | grep -Fqx "$TITLE"; then
+            echo "Reminder already exists: $TITLE"
+            exit 0
+          fi
+          gh issue create --repo "$GH_REPO" --title "$TITLE" --body "$(cat <<EOF
+          ## Daily check-in — Day $DAY of 90
+
+          - [ ] Visit AWS Builder Center yourself.
+          - [ ] Complete the required activity according to the official challenge rules.
+          - [ ] Verify that your activity is reflected on your AWS Builder Center profile.
+          - [ ] Record the day in the [streak dashboard](https://coderameez.github.io/aws-builder-center-streak/).
+
+          **Date:** $TODAY (Asia/Karachi)
+
+          This is a reminder only. Do not automate likes, comments, posts, logins, or other engagement. Complete all platform activity manually.
+          EOF
+          )"
